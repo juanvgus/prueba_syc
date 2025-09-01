@@ -346,12 +346,10 @@ async def chat_message_url(deuda_item: Dict[str, Any]) -> str:
     ref = res.get("paymentReference", "")
     tx  = res.get("transactionId", "")
     url = res.get("url", "")
-    total = res.get("total", "")
     url_message = (
         f"¡Perfecto! Ya generé tu enlace de pago para la placa {placa}.\n"
         f"Referencia de pago: {ref}\n"
         f"Transacción: {tx}\n"
-        f"Total: {total}\n"
         f"Paga en línea aquí: {url}\n"
         "Gracias por usar nuestro servicio."
     )
