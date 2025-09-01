@@ -1,11 +1,10 @@
-# db/init.py
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from models.users import User
 from models.chat_messages import ChatMessages
 
-MONGO_DB_URI = os.getenv("MONGO_DB_URI", "mongodb://localhost:27017/chatbotWdb")
+MONGO_DB_URI = os.getenv("MONGO_DB_URI")
 
 _client: AsyncIOMotorClient | None = None
 

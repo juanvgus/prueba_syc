@@ -1,4 +1,3 @@
-# webhook.py
 import os
 import hmac
 import hashlib

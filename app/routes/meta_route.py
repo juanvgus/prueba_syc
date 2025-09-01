@@ -1,4 +1,3 @@
-# routes/meta_webhook.py
 import os
 from fastapi import APIRouter, Request, HTTPException, Query
 from fastapi.responses import PlainTextResponse
