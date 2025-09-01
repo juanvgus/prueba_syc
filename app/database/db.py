@@ -1,8 +1,8 @@
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
-from app.models.users import User
-from app.models.chat_messages import ChatMessages
+from app.models.user import User
+from app.models.ChatMessages import ChatMessages
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI")
 
