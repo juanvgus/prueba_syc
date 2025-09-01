@@ -523,7 +523,7 @@ async def handle_text(message: Dict[str, Any], business_phone_number_id: str):
      
     
 async def handle_interactive(message: Dict[str, Any], business_phone_number_id: str):
-    if message["context"]["id"] == "1":
+    if message["interactive"]["button_reply"]["id"] == "1":
         report =  await get_last_report_by_user(message.get("from"))
         message_url = await chat_message_info(report["report"])
         await send_message(
