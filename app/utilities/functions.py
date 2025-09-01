@@ -346,10 +346,12 @@ async def chat_message_url(deuda_item: Dict[str, Any]) -> str:
     ref = res.get("paymentReference", "")
     tx  = res.get("transactionId", "")
     url = res.get("url", "")
+    total = res.get("total", "")
     url_message = (
         f"¡Perfecto! Ya generé tu enlace de pago para la placa {placa}.\n"
         f"Referencia de pago: {ref}\n"
         f"Transacción: {tx}\n"
+        f"Total: {total}\n"
         f"Paga en línea aquí: {url}\n"
         "Gracias por usar nuestro servicio."
     )
@@ -524,7 +526,7 @@ async def handle_text(message: Dict[str, Any], business_phone_number_id: str):
 async def handle_interactive(message: Dict[str, Any], business_phone_number_id: str):
     if message["interactive"]["button_reply"]["id"] == "1":
         report =  await get_last_report_by_user(message.get("from"))
-        message_url = await chat_message_info(report["report"])
+        message_url = await chat_message_url(report.report)
         await send_message(
             business_phone_number_id,
             message.get("from"),
