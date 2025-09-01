@@ -361,14 +361,13 @@ async def validate_message(id_user: str, id_message: str) -> bool:
     Retorna True si existe un mensaje con ese id para el usuario dado.
     Equivale a: chatMessages.findOne({ idUser, "messages.id": idMessage })
     """
-    coll = ChatMessages.get_motor_collection()
-    doc = await coll.find_one(
+    doc = await ChatMessages.find_one(
         {"idUser": id_user, "messages.id": id_message},
         {"_id": 1}  
     )
     return doc is not None
-
-async def add_chat_messages(id_user: str, data_message: Dict[str, Any], is_bot: bool) -> Dict[str, Any]:
+    
+async def add_chat_messages(id_user: str, data_message: Dict[str, Any]) -> Dict[str, Any]:
     """
     Equivale a:
       - calcular dailyDate = (UTC - 5h).toISOString().split('T')[0]
@@ -376,22 +375,21 @@ async def add_chat_messages(id_user: str, data_message: Dict[str, Any], is_bot: 
       - si no existe: crear doc con messages=[message], date=dailyDat
     Retorna el documento guardado (dict).
     """
-    coll = ChatMessages.get_motor_collection()
     message = dict(data_message)
     now_utc = datetime.utcnow()
     now_bog = now_utc - timedelta(hours=5)
     daily_date = now_bog.date().isoformat()
-    existing = await coll.find_one({"idUser": id_user, "date": daily_date}, {"_id": 1})
+    existing = await ChatMessages.find_one({"idUser": id_user, "date": daily_date}, {"_id": 1})
 
     if existing:
         return existing  
     
-    doc = {
-        "idUser": id_user,
-        "messages": [message],   
-        "date": daily_date
-    }
-    await coll.insert_one(doc)
+    doc = ChatMessages(
+        idUser = id_user,
+        messages = [message],   
+        date = daily_date
+    )
+    await doc.insert()
     return doc
 
 
