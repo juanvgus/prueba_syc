@@ -508,12 +508,12 @@ async def handle_text(message: Dict[str, Any], business_phone_number_id: str):
     resp = info.get("response")
     text = info.get("message")
     if resp:
-        await create_report(message.get("from"), resp)
         await send_message_info(
         business_phone_number_id,
         message.get("from"),
         text
-    )
+        )
+        await create_report(message.get("from"), resp)
     else:
         await send_message(
             business_phone_number_id,
@@ -539,14 +539,14 @@ async def handle_interactive(message: Dict[str, Any], business_phone_number_id: 
         )
 
 
-async def handle_audio(message: Dict[str, Any], user: Any, business_phone_number_id: str, validate_session: Any):
+async def handle_audio(message: Dict[str, Any], business_phone_number_id: str):
     await send_message(
             business_phone_number_id,
             message.get("from"),
             "Por ahora no podemos procesar audios 🙏. Envíame tu consulta en texto por favor"
         )
 
-async def handle_default(message: Dict[str, Any], user: Any, business_phone_number_id: str, validate_session: Any):
+async def handle_default(message: Dict[str, Any], business_phone_number_id: str):
     await send_message(
         business_phone_number_id, 
         message.get("from"),
