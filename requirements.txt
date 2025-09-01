@@ -11,6 +11,7 @@ slowapi
 # Mongo async (tus modelos sugieren Motor/PyMongo)
 motor
 pymongo
+beanie
 
 # Utilidad para cargar .env en local (opcional)
 python-dotenv
