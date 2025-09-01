@@ -330,10 +330,7 @@ async def chat_message_info(message: str) -> Dict[str, Any]:
             + f"\n• Total: ${format_cop(item.get('total', 0))}\n"
             f"Fecha límite: {format_ddmmyyyy(item.get('fechaLim',''))}\n"
             "¡No olvides realizarlo a tiempo!\n"
-            "¿Deseas generar el pago ahora?"
         )
-    else:
-        texto += "\n¿Deseas generar el pago ahora?"
 
     return {"message": texto, "response": item}
 
@@ -427,11 +424,37 @@ async def send_message(business_phone_number_id: str, recipient_phone_number: st
         "Content-Type": "application/json",
         "Authorization": f"Bearer {GRAPH_API_TOKEN}",
     }
-    data: Dict[str, Any] = {
+    data = {
         "messaging_product": "whatsapp",
         "to": recipient_phone_number,
-        "type": "text",
-        "text": {"body": text},
+        "type": "interactive",
+        "interactive": {
+            "type": "button",
+            "body": {
+                "text": text
+            },
+            "footer": {
+                "text": "¿Deseas generar el pago ahora?"
+            },
+            "action": {
+                "buttons": [
+                    {
+                        "type": "reply",
+                        "reply": {
+                            "id": "0",
+                            "title": "❌"
+                        }
+                    },
+                    {
+                        "type": "reply",
+                        "reply": {
+                            "id": "1",
+                            "title": "✅"
+                        }
+                    }
+                ]
+            }
+        }
     }
 
     try:
