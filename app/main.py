@@ -8,8 +8,8 @@ from slowapi.middleware import SlowAPIMiddleware
 from slowapi.errors import RateLimitExceeded
 from slowapi import _rate_limit_exceeded_handler
 
-from routes.meta_route import router as meta_router
-from database.db import init_db, close_db
+from app.routes.meta_route import router as meta_router
+from app.database.db import init_db, close_db
 
 # -------- Env & logging --------
 PORT = int(os.getenv("PORTAPI", "8000"))

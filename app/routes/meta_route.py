@@ -1,7 +1,7 @@
 import os
 from fastapi import APIRouter, Request, HTTPException, Query
 from fastapi.responses import PlainTextResponse
-from controllers.meta_controller import get_meta_message  
+from app.controllers.meta_controller import get_meta_message  
 
 router = APIRouter()
 
