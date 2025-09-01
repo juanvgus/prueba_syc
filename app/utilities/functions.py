@@ -505,18 +505,21 @@ async def send_message_info(business_phone_number_id: str, recipient_phone_numbe
 
 async def handle_text(message: Dict[str, Any], business_phone_number_id: str):
     info = await chat_message_info(message["text"]["body"])
-    if info["response"]:
-        await create_report(message.get("from"), info["response"])
+    resp = info.get("response")
+    text = info.get("message")
+    if resp:
+        print("entre a response")
+        await create_report(message.get("from"), resp)
         await send_message_info(
         business_phone_number_id,
         message.get("from"),
-        info["message"]
+        text
     )
     else:
         await send_message(
             business_phone_number_id,
             message.get("from"),
-            info["message"]
+            text
         )
      
     
