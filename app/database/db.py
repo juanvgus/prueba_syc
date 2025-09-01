@@ -3,6 +3,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from app.models.user import User
 from app.models.ChatMessages import ChatMessages
+from app.models.report import Report
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI")
 
@@ -21,7 +22,7 @@ async def init_db() -> None:
     await db.command("ping")
 
     # Registra tus modelos Beanie
-    await init_beanie(database=db, document_models=[User, ChatMessages])
+    await init_beanie(database=db, document_models=[User, ChatMessages, Report])
 
     print("Connected database")
 

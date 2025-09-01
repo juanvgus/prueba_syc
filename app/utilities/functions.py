@@ -397,8 +397,7 @@ async def add_chat_messages(id_user: str, data_message: Dict[str, Any]) -> Dict[
 async def create_report(id_user: str, payload: dict) -> Report:
     now_utc = datetime.utcnow()
     now_bog = now_utc - timedelta(hours=5)
-    daily_date = now_bog.date().isoformat()
-    doc = Report(idUser=id_user, report=payload, date=daily_date)   
+    doc = Report(idUser=id_user, report=payload, date=now_bog)   
     await doc.insert()                              
     return doc
 
