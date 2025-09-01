@@ -60,4 +60,4 @@ app.add_middleware(
 )
 
 # -------- Rutas --------
-app.include_router(meta_router, prefix="/api")
+app.include_router(meta_router, prefix="/api/webhookMeta")
