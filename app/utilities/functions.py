@@ -424,6 +424,36 @@ async def send_message(business_phone_number_id: str, recipient_phone_number: st
         "Content-Type": "application/json",
         "Authorization": f"Bearer {GRAPH_API_TOKEN}",
     }
+    data: Dict[str, Any] = {
+        "messaging_product": "whatsapp",
+        "to": recipient_phone_number,
+        "type": "text",
+        "text": {"body": text},
+    }
+
+    try:
+        resp = requests.post(url, json=data, headers=headers, timeout=HTTP_TIMEOUT)
+        resp.raise_for_status()
+        try:
+            body = resp.json()
+        except ValueError:
+            body = {"raw": resp.text}
+        return {"dataMessage": data, "sendMessage": body}
+    except Exception:
+        return {"isError": True}
+
+async def send_message_info(business_phone_number_id: str, recipient_phone_number: str, text: str) -> Dict[str, Any]:
+    """
+    POST {GRAPH_API_URL}/{business_phone_number_id}/messages (requests, sync)
+    Retorna:
+      - {"dataMessage": <payload_enviado>, "sendMessage": <json_respuesta>} si OK
+      - {"isError": True} si falla
+    """
+    url = f"{GRAPH_API_URL.rstrip('/')}/{business_phone_number_id}/messages"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {GRAPH_API_TOKEN}",
+    }
     data = {
         "messaging_product": "whatsapp",
         "to": recipient_phone_number,
@@ -470,6 +500,7 @@ async def send_message(business_phone_number_id: str, recipient_phone_number: st
 
 
 
+
 # --------------------------------------------------------------------------------------
 # Handlers
 # --------------------------------------------------------------------------------------
@@ -478,11 +509,17 @@ async def handle_text(message: Dict[str, Any], business_phone_number_id: str):
     info = await chat_message_info(message["text"]["body"])
     if info["response"]:
         await create_report(message.get("from"), info["response"])
-    await send_message(
+        await send_message_info(
         business_phone_number_id,
         message.get("from"),
         info["message"]
     )
+    else:
+        await send_message(
+            business_phone_number_id,
+            message.get("from"),
+            info["message"]
+        )
      
     
 async def handle_interactive(message: Dict[str, Any], user: Any, business_phone_number_id: str, validate_session: Any):
