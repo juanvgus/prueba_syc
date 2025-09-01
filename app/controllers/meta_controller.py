@@ -62,7 +62,7 @@ async def get_meta_message(request: Request):
         if await validate_message(from_id, message_id):
             return JSONResponse({"message": "Mensaje ya procesado"}, status_code=200)
         # ----- Flujo principal -----
-        await add_chat_messages(from_id, message, False)
+        await add_chat_messages(from_id, message)
         handler = message_handlers.get(message_type, message_handlers["default"])
         await handler(message, business_phone_number_id)
         return JSONResponse({"ok": True}, status_code=200)
