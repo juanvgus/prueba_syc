@@ -5,7 +5,7 @@ import json
 from typing import Any, Dict, Optional
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from prueba_syc.app.utilities.functions import validate_message, add_chat_messages, message_handlers
+from utilities.functions import validate_message, add_chat_messages, message_handlers
 
 
 async def get_meta_message(request: Request):

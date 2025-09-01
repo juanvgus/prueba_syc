@@ -25,8 +25,8 @@ from pydantic import BaseModel, field_validator
 from openai import OpenAI
 from datetime import datetime, timedelta
 from fastapi import HTTPException
-from prueba_syc.app.models.ChatMessages import ChatMessages
-from prueba_syc.app.models.report import Report
+from models.ChatMessages import ChatMessages
+from models.report import Report
 
 # =========================
 # Configuración / Constantes
